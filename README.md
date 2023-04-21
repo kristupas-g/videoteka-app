@@ -24,7 +24,7 @@ The application uses cookie based authentication.
 All HTTP methods should have an authentication annotation.
 #### Examples
 Example of an endpoint where the user has to be loged-in.
-```
+```csharp
     [HttpPost]
     [Authorize]
     public async Task<IActionResult> Endpoint()
@@ -33,7 +33,7 @@ Example of an endpoint where the user has to be loged-in.
     }
 ```
 Example of an endpoint where the user doesnt have to be loged-in.
-```
+```csharp
     [HttpPost]
     [AllowAnonymous]
     public async Task<IActionResult> Endpoint()
@@ -45,7 +45,7 @@ Example of an endpoint where the user doesnt have to be loged-in.
 ### Authorization
 All **MediatR** commands and queries that need authorization should implement **IAuthorizedRequest** interface.
 Example
-```
+```csharp
 public record ExampleCommand: IRequest, IAuthorizedRequest
 {
     public Guid Id { get; init; }
