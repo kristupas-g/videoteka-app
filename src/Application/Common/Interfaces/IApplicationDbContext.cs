@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace Videoteka.Application.Common.Interfaces;
+﻿namespace Videoteka.Application.Common.Interfaces;
 
 public interface IApplicationDbContext
 {
