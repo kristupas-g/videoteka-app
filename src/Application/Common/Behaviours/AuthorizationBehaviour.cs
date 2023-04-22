@@ -19,14 +19,11 @@ public class AuthorizationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRe
         CancellationToken cancellationToken
     )
     {
-        if (request is IAuthorizedRequest)
-        {
-            var isAuthorized = await request.Authorize(_context);
+        var isAuthorized = await request.Authorize(_context);
 
-            if (!isAuthorized)
-            {
-                throw new UnauthorizedAccessException("User cannot acces this resource");
-            }
+        if (!isAuthorized)
+        {
+            throw new UnauthorizedAccessException("User cannot acces this resource");
         }
 
         var response = await next();
