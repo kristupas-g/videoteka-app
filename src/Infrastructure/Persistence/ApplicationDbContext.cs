@@ -2,6 +2,7 @@
 using Videoteka.Application.Common.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Domain.Entities;
 
 namespace Videoteka.Infrastructure.Persistence;
 
@@ -9,7 +10,11 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 {
     private readonly IMediator _mediator;
 
-    public ApplicationDbContext(IMediator mediator)
+    public DbSet<User> Users { get; set; }
+
+    public ApplicationDbContext(IMediator mediator,
+            DbContextOptions<ApplicationDbContext> options) 
+        : base(options)
     {
         _mediator = mediator;
     }
@@ -21,7 +26,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         base.OnModelCreating(builder);
     }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
     {
     }
 

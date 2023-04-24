@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 
 namespace Videoteka.Infrastructure.Persistence;
 
@@ -17,7 +18,8 @@ public class ApplicationDbContextInitialiser
     {
         try
         {
-            // await _context.Database.MigrateAsync();
+            await _context.Database.MigrateAsync();
+            _logger.Log(LogLevel.Information, "Migration complete");
         }
         catch (Exception ex)
         {

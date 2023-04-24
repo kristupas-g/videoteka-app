@@ -16,6 +16,8 @@ public static class ConfigureServices
 
         services.AddScoped<ApplicationDbContextInitialiser>();
 
+        services.AddTransient<IAuthService, AuthService>();
+
         services.AddTransient<IDateTime, DateTimeService>();
 
         return services;

@@ -23,6 +23,7 @@ public class AuthorizationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRe
 
         if (!isAuthorized)
         {
+            // TODO handle this exception
             throw new UnauthorizedAccessException("User cannot acces this resource");
         }
 
