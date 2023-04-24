@@ -1,15 +1,23 @@
 using MediatR;
+using Videoteka.Application.Common.Interfaces;
 
 namespace Videoteka.Application.Auth;
 
 public record LogoutCommand : IRequest { }
 
-public class LogoutCommandHandler : IRequestHandler<LoginCommand>
+public class LogoutCommandHandler : IRequestHandler<LogoutCommand>
 {
-    public LogoutCommandHandler() { }
+    private readonly IAuthService _authService;
 
-    public Task<Unit> Handle(LoginCommand request, CancellationToken cancellationToken)
+    public LogoutCommandHandler(IAuthService authService)
     {
-        throw new NotImplementedException();
+        _authService = authService;
+    }
+
+    public Task<Unit> Handle(LogoutCommand request, CancellationToken cancellationToken)
+    {
+        _authService.Logout();
+
+        return Task.FromResult(Unit.Value);
     }
 }

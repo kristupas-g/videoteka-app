@@ -12,12 +12,12 @@ public record LoginCommand : IRequest
 public class LoginCommandHandler : IRequestHandler<LoginCommand>
 {
     private readonly IApplicationDbContext _context;
-    private readonly IAuthService _userService;
+    private readonly IAuthService _authService;
 
     public LoginCommandHandler(IApplicationDbContext context, IAuthService userService)
     {
         _context = context;
-        _userService = userService;
+        _authService = userService;
     }
 
     public Task<Unit> Handle(LoginCommand request, CancellationToken cancellationToken)
@@ -34,7 +34,7 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand>
             throw new KeyNotFoundException("Either username or email is incorrect");
         }
 
-        _userService.Login(user);
+        _authService.Login(user);
 
         return Task.FromResult(Unit.Value);
     }
