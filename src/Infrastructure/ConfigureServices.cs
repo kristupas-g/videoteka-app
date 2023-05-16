@@ -18,6 +18,8 @@ public static class ConfigureServices
 
         services.AddTransient<IAuthService, AuthService>();
 
+        services.AddScoped<IVideoService, VideoService>();
+
         services.AddTransient<IDateTime, DateTimeService>();
 
         return services;
