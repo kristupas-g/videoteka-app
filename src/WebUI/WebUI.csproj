@@ -15,6 +15,8 @@
         <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
         <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.2" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.2" />
+        <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="3.1.32" />
+        <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="7.0.5" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.5" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.2">
             <PrivateAssets>all</PrivateAssets>
@@ -22,5 +24,11 @@
         </PackageReference>
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
     </ItemGroup>
+
+    <Target Name="BuildReactApp" BeforeTargets="Build">
+        <Exec Command="cd web_app &amp;&amp; npm install" />
+        <Exec Command="cd web_app &amp;&amp; npm run build" />
+        <Exec Command="cd web_app &amp;&amp; npm start" />
+    </Target>
 
 </Project>
