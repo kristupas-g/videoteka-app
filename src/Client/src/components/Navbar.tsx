@@ -1,16 +1,25 @@
 import Container from "react-bootstrap/Container";
 import { Nav, Navbar as BootstrapNavbar, NavDropdown } from "react-bootstrap";
+import { Link, NavLink } from "react-router-dom";
 
 export function Navbar() {
   return (
     <BootstrapNavbar bg="dark" variant="dark" expand="lg" className="mb-4">
       <Container>
-        <BootstrapNavbar.Brand href="#home">VUTube</BootstrapNavbar.Brand>
+        <BootstrapNavbar.Brand as={NavLink} to="/">
+          VUTube
+        </BootstrapNavbar.Brand>
+
         <BootstrapNavbar.Toggle aria-controls="basic-navbar-nav" />
+
         <BootstrapNavbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#link">Link</Nav.Link>
+            <Nav.Link as={NavLink} to="/">
+              Home
+            </Nav.Link>
+            <Nav.Link as={NavLink} to="/about">
+              About
+            </Nav.Link>
             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">

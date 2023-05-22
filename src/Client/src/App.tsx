@@ -1,22 +1,21 @@
 import Container from "react-bootstrap/Container";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Navbar } from "./components/Navbar";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { routes } from "./config/routes";
+import { BrowserRouter } from "react-router-dom";
+import { Routes } from "./config/routes";
 
 function App() {
   const queryClient = new QueryClient();
-  const router = createBrowserRouter(routes);
 
   return (
-    <>
+    <BrowserRouter>
       <QueryClientProvider client={queryClient}>
         <Navbar />
         <Container>
-          <RouterProvider router={router} />
+          <Routes />
         </Container>
       </QueryClientProvider>
-    </>
+    </BrowserRouter>
   );
 }
 
