@@ -29,9 +29,9 @@ public class VideoService : IVideoService
         _blobContainerClient = EnsureBlobContainer(videoContainerName);
     }
 
-    public async Task<Stream> GetVideoStream(Video video, CancellationToken cancellationToken)
+    public async Task<Stream> GetVideoStream(string name, CancellationToken cancellationToken)
     {
-        var blobClient = _blobContainerClient.GetBlobClient(video.Name);
+        var blobClient = _blobContainerClient.GetBlobClient(name);
 
         var azureStream = await blobClient.DownloadStreamingAsync();
 

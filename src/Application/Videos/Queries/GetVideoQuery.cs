@@ -19,7 +19,7 @@ public class GetVideoQueryHandler : IRequestHandler<GetVideoQuery, VideoDto>
 
     public async Task<VideoDto> Handle(GetVideoQuery request, CancellationToken cancellationToken)
     {
-        var video = await _dbContext.Videos.FindAsync(request.Id);
+        var video = await _dbContext.Videos.FindAsync(request.Id, cancellationToken);
 
         if (video == null) {
             throw new NotFoundException(nameof(Video), request.Id);

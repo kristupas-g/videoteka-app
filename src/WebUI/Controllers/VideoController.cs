@@ -20,16 +20,16 @@ public class VideoController : ApiControllerBase
 
     [HttpGet("{id}")]
     [AllowAnonymous]
-    public async Task<VideoDto> GetSingleAsync(Guid id)
+    public async Task<VideoDto> GetSingle(Guid id)
     {
         return await Mediator.Send(new GetVideoQuery(id));
     }
 
-    [HttpGet("{videoName}/watch")]
+    [HttpGet("{id}/watch")]
     [AllowAnonymous]
-    public async Task<FileStreamResult> GetStreamAsync(string videoName)
+    public async Task<FileStreamResult> GetStream(Guid id)
     {
-        var stream = await Mediator.Send(new VideoQuery(videoName));
+        var stream = await Mediator.Send(new GetStreamQuery(id));
 
         return new FileStreamResult(stream, "video/mp4");
     }
