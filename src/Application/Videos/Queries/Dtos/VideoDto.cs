@@ -6,8 +6,10 @@ public record VideoDto
 {
     public VideoDto(Video video)
     {
+        Id = video.Id;
         Name = video.Name;
     }
     
+    public Guid Id { get; init; }
     public string Name { get; init; }
 }

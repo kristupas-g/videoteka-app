@@ -11,6 +11,13 @@ namespace Videoteka.WebUI.Controllers;
 
 public class VideoController : ApiControllerBase
 {
+    [HttpGet]
+    [AllowAnonymous]
+    public async Task<IEnumerable<VideoDto>> GetAll()
+    {
+        return await Mediator.Send(new GetVideosQuery());
+    }
+
     [HttpGet("{id}")]
     [AllowAnonymous]
     public async Task<VideoDto> GetSingleAsync(Guid id)
