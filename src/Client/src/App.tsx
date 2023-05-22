@@ -1,23 +1,16 @@
-import Alert from "react-bootstrap/Alert";
+import Container from "react-bootstrap/Container";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { Main } from "./pages/Main";
 
 function App() {
+  const queryClient = new QueryClient();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-      <Alert variant="primary">This is a primary alert—check it out!</Alert>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <Container>
+        <Main />
+      </Container>
+    </QueryClientProvider>
   );
 }
 
