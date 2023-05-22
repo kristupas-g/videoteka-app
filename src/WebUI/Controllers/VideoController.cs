@@ -1,17 +1,50 @@
+using Domain.Entities;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Videoteka.Application.Videos;
+using Videoteka.Application.Videos.Commands;
+using Videoteka.Application.Videos.Queries;
+using Videoteka.Application.Videos.Queries.Dtos;
 
 namespace Videoteka.WebUI.Controllers;
 
 public class VideoController : ApiControllerBase
 {
-    [HttpGet("watch/{videoName}")]
+    [HttpGet]
     [AllowAnonymous]
-    public async Task<FileStreamResult> LoginAsync(string videoName)
+    public async Task<IEnumerable<VideoDto>> GetAll()
     {
-        var stream = await Mediator.Send(new VideoQuery(videoName));
+        return await Mediator.Send(new GetVideosQuery());
+    }
+
+    [HttpGet("{id}")]
+    [AllowAnonymous]
+    public async Task<VideoDto> GetSingle(Guid id)
+    {
+        return await Mediator.Send(new GetVideoQuery(id));
+    }
+
+    [HttpGet("{id}/watch")]
+    [AllowAnonymous]
+    public async Task<FileStreamResult> GetStream(Guid id)
+    {
+        var stream = await Mediator.Send(new GetStreamQuery(id));
 
         return new FileStreamResult(stream, "video/mp4");
+    }
+
+    [HttpPost]
+    [AllowAnonymous]
+    public async Task<Unit> Create(CreateVideoCommand command)
+    {
+        return await Mediator.Send(command);
+    }
+
+    [HttpDelete("{id}")]
+    [AllowAnonymous]
+    public async Task<Unit> Delete(Guid id)
+    {
+        return await Mediator.Send(new DeleteVideoCommand(id));
     }
 }
