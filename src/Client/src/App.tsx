@@ -1,4 +1,4 @@
-import React from 'react';
+import Alert from "react-bootstrap/Alert";
 
 function App() {
   return (
@@ -16,6 +16,7 @@ function App() {
           Learn React
         </a>
       </header>
+      <Alert variant="primary">This is a primary alert—check it out!</Alert>
     </div>
   );
 }
