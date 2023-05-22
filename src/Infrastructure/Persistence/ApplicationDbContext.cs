@@ -11,6 +11,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     private readonly IMediator _mediator;
 
     public DbSet<User> Users { get; set; }
+    public DbSet<Video> Videos { get; set; }
 
     public ApplicationDbContext(IMediator mediator,
             DbContextOptions<ApplicationDbContext> options) 

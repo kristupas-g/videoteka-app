@@ -1,14 +1,22 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Videoteka.Application.Videos;
+using Videoteka.Application.Videos.Queries.Dtos;
 
 namespace Videoteka.WebUI.Controllers;
 
 public class VideoController : ApiControllerBase
 {
-    [HttpGet("watch/{videoName}")]
+    // [HttpGet("{id}")]
+    // [AllowAnonymous]
+    // public async Task<VideoDto> GetSingleAsync(Guid id)
+    // {
+    //     return await Mediator.Send(new VideoQuery(id));
+    // }
+
+    [HttpGet("{videoName}/watch")]
     [AllowAnonymous]
-    public async Task<FileStreamResult> LoginAsync(string videoName)
+    public async Task<FileStreamResult> GetStreamAsync(string videoName)
     {
         var stream = await Mediator.Send(new VideoQuery(videoName));
 
