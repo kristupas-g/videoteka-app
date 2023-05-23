@@ -6,4 +6,5 @@ public interface IAuthService
 {
     public Task Login(User user);
     public Task Logout();
+    public Task<string?> ValidateCookieAndGetUsername();
 }

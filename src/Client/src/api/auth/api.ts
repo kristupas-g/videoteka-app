@@ -1,7 +1,5 @@
-import axios, { AxiosResponse } from "axios";
-import { useMutation, useQueryClient } from "react-query";
-import { API_BASE_URL } from "../../config/const";
-import { LoginCredentials } from "./types";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { LoginCredentials, User } from "./types";
 import { axiosInstance } from "../../config/axiosInstance";
 
 export function useAuthLogin()
@@ -13,4 +11,9 @@ export function useAuthLogin()
             onSuccess: () => queryClient.invalidateQueries(["auth"]),
         }
     );
+}
+
+export function useAuthenticatedUser()
+{
+    return useQuery<User | undefined>(['auth'], async () => (await axiosInstance.get('/auth')).data);
 }

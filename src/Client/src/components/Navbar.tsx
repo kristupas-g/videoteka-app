@@ -1,8 +1,11 @@
 import Container from "react-bootstrap/Container";
 import { Nav, Navbar as BootstrapNavbar, NavDropdown } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
+import { useAuthenticatedUser } from "../api/auth/api";
 
 export function Navbar() {
+  const user = useAuthenticatedUser();
+
   return (
     <BootstrapNavbar bg="dark" variant="dark" expand="lg" className="mb-4">
       <Container>
@@ -23,6 +26,7 @@ export function Navbar() {
             <Nav.Link as={NavLink} to="/login">
               Login
             </Nav.Link>
+            <Nav.Link>{user.data?.username ?? "not logged in"}</Nav.Link>
             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">
