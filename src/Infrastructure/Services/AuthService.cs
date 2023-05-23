@@ -16,6 +16,18 @@ public class AuthService : IAuthService
         _httpContextAccessor = httpContextAccessor;
     }
 
+    public async Task<string?> ValidateCookieAndGetUsername()
+    {
+        var result = await _httpContextAccessor.HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+        if (result?.Principal is ClaimsPrincipal claimsPrincipal)
+        {
+            return claimsPrincipal.FindFirst(ClaimTypes.Name)?.Value;
+        }
+
+        return null;
+    }
+
     public async Task Login(User user)
     {
         var claims = new List<Claim> { new Claim(type: ClaimTypes.Name, value: user.Username) };

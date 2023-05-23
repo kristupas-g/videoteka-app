@@ -20,6 +20,9 @@ export function Navbar() {
             <Nav.Link as={NavLink} to="/about">
               About
             </Nav.Link>
+            <Nav.Link as={NavLink} to="/login">
+              Login
+            </Nav.Link>
             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">
