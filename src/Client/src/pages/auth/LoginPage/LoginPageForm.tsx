@@ -4,9 +4,11 @@ import InputField from "../../../components/forms/InputField";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginFormSchema } from "./loginFormSchema";
 import { useAuthLogin } from "../../../api/auth/api";
+import { useNavigate } from "react-router-dom";
 
 export function LoginPageForm() {
   const login = useAuthLogin();
+  const navigate = useNavigate();
 
   const methods = useForm({
     resolver: yupResolver(loginFormSchema),
@@ -43,7 +45,11 @@ export function LoginPageForm() {
   );
 
   function onSubmitHandler(data: any) {
-    login.mutate(data);
-    reset();
+    login.mutate(data, {
+      onSuccess: () => {
+        reset();
+        navigate("/");
+      },
+    });
   }
 }
