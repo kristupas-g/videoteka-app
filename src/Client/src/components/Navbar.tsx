@@ -2,6 +2,7 @@ import Container from "react-bootstrap/Container";
 import { Nav, Navbar as BootstrapNavbar, NavDropdown } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { useAuthenticatedUser } from "../api/auth/api";
+import { User } from "../api/auth/types";
 
 export function Navbar() {
   const user = useAuthenticatedUser();
@@ -17,30 +18,49 @@ export function Navbar() {
 
         <BootstrapNavbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link as={NavLink} to="/">
-              Home
-            </Nav.Link>
-            <Nav.Link as={NavLink} to="/about">
-              About
-            </Nav.Link>
+            <LeftSideNavbar user={user.data} />
           </Nav>
+
           <Nav>
-            {user.data ? (
-              <NavDropdown
-                title={`Signed in as ${user.data?.username}`}
-                id="basic-nav-dropdown"
-              >
-                <NavDropdown.Item>Upload</NavDropdown.Item>
-                <NavDropdown.Item>Signout</NavDropdown.Item>
-              </NavDropdown>
-            ) : (
-              <Nav.Link as={NavLink} to="/login">
-                Login
-              </Nav.Link>
-            )}
+            <RightSideNavbar user={user.data} />
           </Nav>
         </BootstrapNavbar.Collapse>
       </Container>
     </BootstrapNavbar>
+  );
+}
+
+function LeftSideNavbar({ user }: { user?: User }) {
+  return (
+    <>
+      <Nav.Link as={NavLink} to="/">
+        Home
+      </Nav.Link>
+      <Nav.Link as={NavLink} to="/about">
+        About
+      </Nav.Link>
+    </>
+  );
+}
+
+function RightSideNavbar({ user }: { user?: User }) {
+  if (!!user) {
+    return (
+      <NavDropdown
+        title={`Signed in as ${user.username}`}
+        id="basic-nav-dropdown"
+      >
+        <NavDropdown.Item>Upload</NavDropdown.Item>
+        <NavDropdown.Item>Signout</NavDropdown.Item>
+      </NavDropdown>
+    );
+  }
+
+  return (
+    <>
+      <Nav.Link as={NavLink} to="/login">
+        Login
+      </Nav.Link>
+    </>
   );
 }
