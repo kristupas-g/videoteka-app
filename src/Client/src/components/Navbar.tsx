@@ -23,21 +23,21 @@ export function Navbar() {
             <Nav.Link as={NavLink} to="/about">
               About
             </Nav.Link>
-            <Nav.Link as={NavLink} to="/login">
-              Login
-            </Nav.Link>
-            <Nav.Link>{user.data?.username ?? "not logged in"}</Nav.Link>
-            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item>
-            </NavDropdown>
+          </Nav>
+          <Nav>
+            {user.data ? (
+              <NavDropdown
+                title={`Signed in as ${user.data?.username}`}
+                id="basic-nav-dropdown"
+              >
+                <NavDropdown.Item>Upload</NavDropdown.Item>
+                <NavDropdown.Item>Signout</NavDropdown.Item>
+              </NavDropdown>
+            ) : (
+              <Nav.Link as={NavLink} to="/login">
+                Login
+              </Nav.Link>
+            )}
           </Nav>
         </BootstrapNavbar.Collapse>
       </Container>
