@@ -36,9 +36,12 @@ public class VideoController : ApiControllerBase
 
     [HttpPost]
     [AllowAnonymous]
-    public async Task<Unit> Create(CreateVideoCommand command)
+    public async Task<Unit> Create([FromForm] string name, [FromForm] IFormFile file)
     {
-        return await Mediator.Send(command);
+        Console.WriteLine(name);
+        Console.WriteLine(file.Length);
+
+        return Unit.Value;
     }
 
     [HttpDelete("{id}")]
