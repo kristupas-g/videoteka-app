@@ -3,6 +3,7 @@ using Videoteka.Application.Common.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Domain.Entities;
+using Videoteka.Infrastructure.Persistence.Interceptors;
 
 namespace Videoteka.Infrastructure.Persistence;
 
@@ -14,7 +15,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Video> Videos { get; set; }
 
     public ApplicationDbContext(IMediator mediator,
-            DbContextOptions<ApplicationDbContext> options) 
+            DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
         _mediator = mediator;
@@ -27,8 +28,9 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         base.OnModelCreating(builder);
     }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
+        optionsBuilder.AddInterceptors(new QueryLoggingInterceptor());
     }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
