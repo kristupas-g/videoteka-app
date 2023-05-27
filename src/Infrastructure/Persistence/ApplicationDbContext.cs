@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Videoteka.Infrastructure.Persistence.Interceptors;
 
 namespace Videoteka.Infrastructure.Persistence;
 
@@ -30,6 +31,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
+        optionsBuilder.AddInterceptors(new QueryLoggingInterceptor());
     }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
