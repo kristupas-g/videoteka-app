@@ -3,6 +3,7 @@ using Videoteka.Application.Common.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Domain.Entities;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Videoteka.Infrastructure.Persistence.Interceptors;
 
 namespace Videoteka.Infrastructure.Persistence;

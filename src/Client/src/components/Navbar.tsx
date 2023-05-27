@@ -50,7 +50,9 @@ function RightSideNavbar({ user }: { user?: User }) {
         title={`Signed in as ${user.username}`}
         id="basic-nav-dropdown"
       >
-        <NavDropdown.Item>Upload</NavDropdown.Item>
+        <NavDropdown.Item as={NavLink} to="/upload">
+          Upload
+        </NavDropdown.Item>
         <NavDropdown.Item>Signout</NavDropdown.Item>
       </NavDropdown>
     );

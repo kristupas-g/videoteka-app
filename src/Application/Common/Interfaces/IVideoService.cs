@@ -6,5 +6,5 @@ public interface IVideoService
 {
     public Task<Stream> GetVideoStream(string name, CancellationToken cancellationToken);
 
-    public Task StoreVideo(Byte[] video, string videoName, CancellationToken cancellationToken);
+    public Task StoreVideo(Stream video, string videoName);
 }
