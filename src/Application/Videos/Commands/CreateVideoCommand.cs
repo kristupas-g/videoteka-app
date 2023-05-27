@@ -1,6 +1,7 @@
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Storage;
 using Videoteka.Application.Common.Interfaces;
 
 namespace Videoteka.Application.Videos.Commands;
@@ -31,12 +32,25 @@ public class CreateVideoCommandHandler : IRequestHandler<CreateVideoCommand>
             Name = request.Name,
         };
 
-        Stream stream = request.File.OpenReadStream();
-        await _videoService.StoreVideo(stream, id.ToString());
+        using (IDbContextTransaction transaction = _dbContext.Database.BeginTransaction())
+        {
+            try
+            {
+                Stream stream = request.File.OpenReadStream();
+                await _videoService.StoreVideo(stream, id.ToString());
 
-        _dbContext.Videos.Add(video);
-        await _dbContext.SaveChangesAsync();
+                _dbContext.Videos.Add(video);
+                await _dbContext.SaveChangesAsync();
 
-        return Unit.Value;
+                transaction.Commit();
+
+                return Unit.Value;
+            }
+            catch (System.Exception)
+            {
+                transaction.Rollback();
+                throw;
+            }
+        }
     }
 }
