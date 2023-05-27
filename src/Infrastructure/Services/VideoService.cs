@@ -38,13 +38,11 @@ public class VideoService : IVideoService
         return azureStream.Value.Content;
     }
 
-    public async Task StoreVideo(Byte[] video, string videoName, CancellationToken cancellationToken)
+    public async Task StoreVideo(Stream video, string videoName)
     {
         var blobClient = _blobContainerClient.GetBlobClient(videoName);
 
-        var binaryData = new BinaryData(video);
-
-        await blobClient.UploadAsync(binaryData, cancellationToken);
+        await blobClient.UploadAsync(video, overwrite: true);
     }
 
     private BlobContainerClient EnsureBlobContainer(string containerName)
