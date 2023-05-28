@@ -6,5 +6,6 @@ export type Video = {
 
 export type VideoUpload = {
   name: string;
+  description: string;
   file: FileList;
 };

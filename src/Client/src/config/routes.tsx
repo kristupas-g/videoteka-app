@@ -5,6 +5,7 @@ import { LoginPage } from "../pages/auth/LoginPage/LoginPage";
 import { useAuthenticatedUser } from "../api/auth/api";
 import React from "react";
 import { UploadVideoPage } from "../pages/UploadVideo/UploadVideoPage";
+import { SingleVideoPage } from "../pages/ViewVideo/SingleVideoPage";
 
 export function Routes() {
   const isAuthenticated = useAuthenticatedUser().data != null;
@@ -17,6 +18,7 @@ export function Routes() {
         <>
           <Route path="/about" element={<TestPage />} />
           <Route path="/upload" element={<UploadVideoPage />} />
+          <Route path="/video/:id" element={<SingleVideoPage />} />
         </>
       ) : (
         <Route path="/login" element={<LoginPage />} />

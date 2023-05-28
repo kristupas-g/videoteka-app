@@ -7,10 +7,12 @@ public class AuthorizationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRe
     where TRequest : IRequest<TResponse>, IAuthorizedRequest
 {
     private readonly IApplicationDbContext _context;
+    private readonly IAuthService _authService;
 
-    public AuthorizationBehaviour(IApplicationDbContext context)
+    public AuthorizationBehaviour(IApplicationDbContext context, IAuthService authService)
     {
         _context = context;
+        _authService = authService;
     }
 
     public async Task<TResponse> Handle(
@@ -19,12 +21,11 @@ public class AuthorizationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRe
         CancellationToken cancellationToken
     )
     {
-        var isAuthorized = await request.Authorize(_context);
+        var isAuthorized = await request.Authorize(_context, _authService);
 
         if (!isAuthorized)
         {
-            // TODO handle this exception
-            throw new UnauthorizedAccessException("User cannot acces this resource");
+            throw new UnauthorizedAccessException("User cannot access this resource");
         }
 
         var response = await next();

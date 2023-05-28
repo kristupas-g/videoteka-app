@@ -11,6 +11,13 @@ export function useVideos() {
   );
 }
 
+export function useSingleVideo(id: string) {
+  return useQuery<Video>(
+    ["videos", id],
+    async () => (await axiosInstance.get(`/video/${id}`)).data
+  );
+}
+
 export function useUploadVideo() {
   const queryClient = useQueryClient();
 
@@ -19,10 +26,12 @@ export function useUploadVideo() {
       const formData = new FormData();
 
       formData.append("name", data.name);
+      formData.append("description", data.description);
       formData.append("file", data.file[0]);
 
       return axios.post(`${API_BASE_URL}/video`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
+        withCredentials: true,
       });
     },
     {
