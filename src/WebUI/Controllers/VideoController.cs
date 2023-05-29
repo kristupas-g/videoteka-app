@@ -46,4 +46,11 @@ public class VideoController : ApiControllerBase
     {
         return await Mediator.Send(new DeleteVideoCommand(id));
     }
+
+    [HttpPatch("{id}/views")]
+    [AllowAnonymous]
+    public async Task<Unit> UpdateViews(Guid id)
+    {
+        return await Mediator.Send(new UpdateVideoViewsCommand(id));
+    }
 }

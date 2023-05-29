@@ -1,11 +1,18 @@
 import { useParams } from "react-router-dom";
-import { useSingleVideo } from "../../api/videos/api";
-import { Col, Row, Spinner } from "react-bootstrap";
+import { useSingleVideo, useUpdateVideoViews } from "../../api/videos/api";
+import { Col, Row, Spinner, Stack } from "react-bootstrap";
 import { UploaderContainer } from "./components/UploaderContainer";
+import { VideoContainer } from "./components/VideoContainer";
+import { MetadataContainer } from "./components/MetadataContainer";
+import { useMemo } from "react";
 
 export function SingleVideoPage() {
   const { id } = useParams();
   const video = useSingleVideo(id ?? "");
+  const updateViews = useUpdateVideoViews(id ?? "");
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useMemo(() => updateViews.mutate(), [video.data?.name]);
 
   if (video.isLoading) {
     return <Spinner />;
@@ -18,13 +25,22 @@ export function SingleVideoPage() {
           <h5>Recommended for you</h5>
         </Col>
         <Col>
-          <VideoContainer />
-          <VideoMetadata />
-          <div style={{ marginBottom: 48 }}>
-            <h5>Uploader</h5>
-            <UploaderContainer userId={video.data?.uploaderId ?? ""} />
-          </div>
-          <VideoComments />
+          <Stack gap={4}>
+            <VideoContainer videoId={video.data?.id ?? ""} />
+
+            <div>
+              <MetadataContainer videoId={video.data?.id ?? ""} />
+            </div>
+
+            <div>
+              <h5>Uploaded by</h5>
+              <UploaderContainer userId={video.data?.uploaderId ?? ""} />
+            </div>
+
+            <div>
+              <VideoComments />
+            </div>
+          </Stack>
         </Col>
       </Row>
     </div>
@@ -33,34 +49,9 @@ export function SingleVideoPage() {
   function VideoComments() {
     return (
       <div>
-        <h5>Comments</h5>
+        <h5>Comments (5)</h5>
+        <Spinner />
       </div>
-    );
-  }
-
-  function VideoMetadata() {
-    return (
-      <div style={{ marginBottom: 48 }}>
-        <h2>{video.data?.name}</h2>
-        <p>{video.data?.description ?? "No description provided"}</p>
-      </div>
-    );
-  }
-
-  function VideoContainer() {
-    return (
-      <video
-        width="100%"
-        height="500"
-        controls
-        style={{ backgroundColor: "black", marginBottom: "16px" }}
-      >
-        <source
-          src={`https://videotekamediacdn.azureedge.net/videotekacontainer/${id}`}
-          type="video/mp4"
-        />
-        Your browser does not support the video tag.
-      </video>
     );
   }
 }

@@ -1,3 +1,3 @@
-export const Palette = {
+export const palette = {
   gray: "#777",
 };

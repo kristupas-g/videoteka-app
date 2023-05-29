@@ -39,3 +39,7 @@ export function useUploadVideo() {
     }
   );
 }
+
+export function useUpdateVideoViews(id: string) {
+  return useMutation(() => axiosInstance.patch(`/video/${id}/views`));
+}
