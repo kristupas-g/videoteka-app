@@ -1,9 +1,10 @@
 export type LoginCredentials = {
-    username: string;
-    password: string;
-}
+  username: string;
+  password: string;
+};
 
 export type User = {
-    id: string;
-    username: string;
-}
+  id: string;
+  username: string;
+  created: Date;
+};

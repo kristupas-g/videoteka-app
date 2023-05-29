@@ -3,7 +3,6 @@ import { Route, Routes as RouteList } from "react-router-dom";
 import { TestPage } from "../pages/TestPage";
 import { LoginPage } from "../pages/auth/LoginPage/LoginPage";
 import { useAuthenticatedUser } from "../api/auth/api";
-import React from "react";
 import { UploadVideoPage } from "../pages/UploadVideo/UploadVideoPage";
 import { SingleVideoPage } from "../pages/ViewVideo/SingleVideoPage";
 

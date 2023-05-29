@@ -13,5 +13,5 @@ public record VideoDto
 
     public Guid Id { get; init; }
     public string Name { get; init; }
-    public Guid UploaderId { get; init; }
+    public Guid? UploaderId { get; init; }
 }
