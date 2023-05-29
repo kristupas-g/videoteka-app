@@ -3,6 +3,7 @@ import { Video, VideoUpload } from "./types";
 import { axiosInstance } from "../../config/axiosInstance";
 import axios from "axios";
 import { API_BASE_URL } from "../../config/const";
+import { VideoComment } from "../videoComments/types";
 
 export function useVideos() {
   return useQuery<Video[]>(
@@ -15,6 +16,13 @@ export function useSingleVideo(id: string) {
   return useQuery<Video>(
     ["videos", id],
     async () => (await axiosInstance.get(`/video/${id}`)).data
+  );
+}
+
+export function useVideoComments(id: string) {
+  return useQuery<VideoComment[]>(
+    ["comments"],
+    async () => (await axiosInstance.get(`/video/${id}/comments`)).data
   );
 }
 

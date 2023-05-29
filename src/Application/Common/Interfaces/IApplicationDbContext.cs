@@ -8,7 +8,7 @@ public interface IApplicationDbContext
 {
     DbSet<User> Users { get; set; }
     DbSet<Video> Videos { get; set; }
+    DbSet<VideoComment> VideoComments { get; set; }
     DatabaseFacade Database { get; }
-
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

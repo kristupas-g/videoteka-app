@@ -10,4 +10,6 @@ public class Video : BaseAuditableEntity
 
     public Guid UploaderId { get; set; }
     public User Uploader { get; set; } = null!;
+
+    public ICollection<VideoComment> Comments { get; } = new List<VideoComment>();
 }

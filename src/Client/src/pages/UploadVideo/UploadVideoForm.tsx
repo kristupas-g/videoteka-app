@@ -37,7 +37,6 @@ export function UploadVideoForm() {
   );
 
   function handleFormSubmit(data: any) {
-    console.log(data);
     uploadVideo.mutate(data);
   }
 }

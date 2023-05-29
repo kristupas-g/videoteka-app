@@ -11,7 +11,7 @@ function App() {
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
         <Navbar />
-        <Container>
+        <Container style={{ marginBottom: 64 }}>
           <Routes />
         </Container>
       </QueryClientProvider>

@@ -5,6 +5,7 @@ import { UploaderContainer } from "./components/UploaderContainer";
 import { VideoContainer } from "./components/VideoContainer";
 import { MetadataContainer } from "./components/MetadataContainer";
 import { useMemo } from "react";
+import { CommentsContainer } from "./components/CommentsContainer";
 
 export function SingleVideoPage() {
   const { id } = useParams();
@@ -38,20 +39,12 @@ export function SingleVideoPage() {
             </div>
 
             <div>
-              <VideoComments />
+              <h5>Comments</h5>
+              <CommentsContainer videoId={video.data?.id ?? ""} />
             </div>
           </Stack>
         </Col>
       </Row>
     </div>
   );
-
-  function VideoComments() {
-    return (
-      <div>
-        <h5>Comments (5)</h5>
-        <Spinner />
-      </div>
-    );
-  }
 }

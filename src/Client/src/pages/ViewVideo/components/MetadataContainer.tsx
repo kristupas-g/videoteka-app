@@ -2,6 +2,7 @@ import { AiFillEye, AiFillHeart } from "react-icons/ai";
 import { FaComment } from "react-icons/fa";
 import { useSingleVideo } from "../../../api/videos/api";
 import { Button, Col, Row, Spinner, Stack } from "react-bootstrap";
+import { abbreviateNumber } from "../../../utils/numberAbbreviator";
 
 type Props = {
   videoId: string;
@@ -59,7 +60,10 @@ export function MetadataContainer({ videoId }: Props) {
   }) {
     return (
       <Button variant={variant}>
-        {icon} <span style={{ fontSize: "14px" }}>{`${count} ${text}`}</span>
+        {icon}{" "}
+        <span style={{ fontSize: "14px" }}>{`${abbreviateNumber(
+          count
+        )} ${text}`}</span>
       </Button>
     );
   }

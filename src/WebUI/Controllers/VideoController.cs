@@ -1,7 +1,8 @@
-using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Videoteka.Application.VideoComments.Queries;
+using Videoteka.Application.VideoComments.Queries.Dtos;
 using Videoteka.Application.Videos;
 using Videoteka.Application.Videos.Commands;
 using Videoteka.Application.Videos.Queries;
@@ -23,6 +24,13 @@ public class VideoController : ApiControllerBase
     public async Task<VideoDto> GetSingle(Guid id)
     {
         return await Mediator.Send(new GetVideoQuery(id));
+    }
+
+    [HttpGet("{id}/comments")]
+    [AllowAnonymous]
+    public async Task<IEnumerable<VideoCommentDto>> GetComments(Guid id)
+    {
+        return await Mediator.Send(new GetVideoCommentsQuery(id));
     }
 
     [HttpGet("{id}/watch")]
