@@ -1,6 +1,6 @@
 import { AiFillEye, AiFillHeart } from "react-icons/ai";
 import { FaComment } from "react-icons/fa";
-import { useSingleVideo } from "../../../api/videos/api";
+import { useSingleVideo, useVideoComments } from "../../../api/videos/api";
 import { Button, Col, Row, Spinner, Stack } from "react-bootstrap";
 import { abbreviateNumber } from "../../../utils/numberAbbreviator";
 
@@ -10,8 +10,9 @@ type Props = {
 
 export function MetadataContainer({ videoId }: Props) {
   const video = useSingleVideo(videoId);
+  const comments = useVideoComments(videoId);
 
-  if (video.isLoading) {
+  if (video.isLoading || comments.isLoading) {
     return <Spinner />;
   }
 
@@ -39,7 +40,7 @@ export function MetadataContainer({ videoId }: Props) {
           <IconButton
             variant="success"
             icon={<FaComment size={18} />}
-            count={0}
+            count={comments.data?.length ?? 0}
             text="comments"
           />
         </Stack>
