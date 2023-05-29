@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Videoteka.WebUI.Filters;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -9,7 +10,9 @@ public static class ConfigureServices
     {
         services.AddHttpContextAccessor();
 
-        services.AddControllers();
+        services.AddControllers(options =>
+            options.Filters.Add<ApiExceptionFilterAttribute>()
+        );
 
         services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie(options =>

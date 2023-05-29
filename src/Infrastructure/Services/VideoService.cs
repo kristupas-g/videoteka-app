@@ -19,14 +19,11 @@ public class VideoService : IVideoService
     {
         _context = context;
 
-        var blobServiceUriString = configuration.GetValue<string>("blobServiceUri");
-        var videoContainerName = configuration.GetValue<string>("videoContainerName");
+        var connectionString = configuration.GetValue<string>("Azure:BlobStorage:ConnectionString");
+        var containerName = configuration.GetValue<string>("Azure:BlobStorage:ContainerName");
 
-        _blobServiceClient = new BlobServiceClient(
-            new Uri(blobServiceUriString),
-            new DefaultAzureCredential()
-        );
-        _blobContainerClient = EnsureBlobContainer(videoContainerName);
+        _blobServiceClient = new BlobServiceClient(connectionString);
+        _blobContainerClient = EnsureBlobContainer(containerName);
     }
 
     public async Task<Stream> GetVideoStream(string name, CancellationToken cancellationToken)

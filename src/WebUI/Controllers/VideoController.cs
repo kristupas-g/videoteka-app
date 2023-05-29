@@ -35,7 +35,6 @@ public class VideoController : ApiControllerBase
     }
 
     [HttpPost]
-    [AllowAnonymous]
     public async Task<Unit> Create([FromForm] CreateVideoCommand command)
     {
         return await Mediator.Send(command);

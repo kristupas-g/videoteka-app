@@ -8,8 +8,10 @@ public record VideoDto
     {
         Id = video.Id;
         Name = video.Name;
+        UploaderId = video.Uploader.Id;
     }
-    
+
     public Guid Id { get; init; }
     public string Name { get; init; }
+    public Guid UploaderId { get; init; }
 }

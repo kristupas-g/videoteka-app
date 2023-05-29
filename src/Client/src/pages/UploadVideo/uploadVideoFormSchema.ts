@@ -7,5 +7,6 @@ type test = {
 
 export const uploadVideoFormSchema = Yup.object<test>().shape({
   name: Yup.string().required("Username field is required"),
+  description: Yup.string().optional(),
   file: Yup.mixed().required("File is required"),
 });

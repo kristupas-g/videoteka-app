@@ -17,6 +17,12 @@ export function UploadVideoForm() {
     <FormProvider {...methods}>
       <Form onSubmit={handleSubmit(handleFormSubmit)}>
         <InputField label="Name:" name="name" type="text" styles="mb-3" />
+        <InputField
+          label="Description:"
+          name="description"
+          styles="mb-3"
+          as="textarea"
+        />
         <InputField label="File:" name="file" type="file" styles="mb-3" />
 
         <Button

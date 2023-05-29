@@ -1,13 +1,16 @@
-import { Card } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import { Video } from "../../api/videos/types";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   data: Video;
 };
 
 export function VideoCard({ data }: Props) {
+  const navigate = useNavigate();
+
   return (
-    <Card>
+    <Card onClick={handleClick} style={{ cursor: "pointer" }}>
       <Card.Img
         variant="top"
         src={
@@ -21,7 +24,14 @@ export function VideoCard({ data }: Props) {
           Some quick example text to build on the card title and make up the
           bulk of the card's content.
         </Card.Text>
+        <Button onClick={handleClick} style={{ width: "100%" }}>
+          View
+        </Button>
       </Card.Body>
     </Card>
   );
+
+  function handleClick() {
+    navigate(`/video/${data.id}`);
+  }
 }
