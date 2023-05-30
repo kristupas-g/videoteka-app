@@ -1,16 +1,11 @@
 import { useParams } from "react-router-dom";
-import {
-  useRecommendedVideos,
-  useSingleVideo,
-  useUpdateVideoViews,
-} from "../../api/videos/api";
+import { useSingleVideo, useUpdateVideoViews } from "../../api/videos/api";
 import { Col, Row, Spinner, Stack } from "react-bootstrap";
 import { UploaderContainer } from "./components/UploaderContainer";
 import { VideoContainer } from "./components/VideoContainer";
 import { MetadataContainer } from "./components/MetadataContainer";
 import { useMemo } from "react";
 import { CommentsContainer } from "./components/CommentsContainer";
-import { VideoCard } from "../../components/videos/VideoCard";
 import { RecommendedVideosContainer } from "./components/RecommendedVideosContainer";
 
 export function SingleVideoPage() {
@@ -30,10 +25,7 @@ export function SingleVideoPage() {
       <Col lg={{ order: 2 }} className="mb-4">
         <Stack gap={4}>
           <VideoContainer videoId={video.data?.id ?? ""} />
-
-          <div>
-            <MetadataContainer videoId={video.data?.id ?? ""} />
-          </div>
+          <MetadataContainer videoId={video.data?.id ?? ""} />
 
           <div>
             <h5>Uploaded by</h5>

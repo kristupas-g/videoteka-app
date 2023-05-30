@@ -28,7 +28,7 @@ export function useRecommendedVideos(id: string) {
 
 export function useVideoComments(id: string) {
   return useQuery<VideoComment[]>(
-    ["comments"],
+    ["comments", id],
     async () => (await axiosInstance.get(`/video/${id}/comments`)).data
   );
 }
