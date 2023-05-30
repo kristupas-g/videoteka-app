@@ -9,6 +9,7 @@ namespace Videoteka.Infrastructure.Services;
 
 public class VideoService : IVideoService
 {
+    private readonly IConfiguration _configuration;
     private readonly BlobServiceClient _blobServiceClient;
     private readonly ApplicationDbContext _context;
 
@@ -18,6 +19,7 @@ public class VideoService : IVideoService
     public VideoService(ApplicationDbContext context, IConfiguration configuration)
     {
         _context = context;
+        _configuration = configuration;
 
         var connectionString = configuration.GetValue<string>("Azure:BlobStorage:ConnectionString");
         var containerName = configuration.GetValue<string>("Azure:BlobStorage:ContainerName");
@@ -40,6 +42,13 @@ public class VideoService : IVideoService
         var blobClient = _blobContainerClient.GetBlobClient(videoName);
 
         await blobClient.UploadAsync(video, overwrite: true);
+    }
+
+    public string GetResourceUrl(string fileName)
+    {
+        var cdnUrl = _configuration.GetValue<string>("Azure:BlobStorage:CdnBaseUrl");
+
+        return Path.Combine(cdnUrl, _blobContainerClient.Name, fileName);
     }
 
     private BlobContainerClient EnsureBlobContainer(string containerName)

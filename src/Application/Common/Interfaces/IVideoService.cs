@@ -7,4 +7,5 @@ public interface IVideoService
     public Task<Stream> GetVideoStream(string name, CancellationToken cancellationToken);
 
     public Task StoreVideo(Stream video, string videoName);
+    public string GetResourceUrl(string fileName);
 }

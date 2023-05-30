@@ -49,10 +49,8 @@ public class AuthService : IAuthService
         );
     }
 
-    public Task Logout()
+    public async Task Logout()
     {
-        _httpContextAccessor.HttpContext.SignOutAsync();
-
-        return Task.CompletedTask;
+        await _httpContextAccessor.HttpContext.SignOutAsync();
     }
 }
