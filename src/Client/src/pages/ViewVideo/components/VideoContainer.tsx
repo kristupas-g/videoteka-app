@@ -1,8 +1,12 @@
+import { useSingleVideo } from "../../../api/videos/api";
+
 type Props = {
   videoId: string;
 };
 
 export function VideoContainer({ videoId }: Props) {
+  const video = useSingleVideo(videoId);
+
   return (
     <video
       width="100%"
@@ -10,12 +14,8 @@ export function VideoContainer({ videoId }: Props) {
       controls
       style={{ backgroundColor: "black" }}
     >
-      <source src={getPath(videoId)} type="video/mp4" />
+      <source src={video.data?.videoUrl ?? ""} type="video/mp4" />
       Your browser does not support the video tag.
     </video>
   );
-}
-
-function getPath(id: string) {
-  return `https://videotekamediacdn.azureedge.net/videotekacontainer/${id}`;
 }

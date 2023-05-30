@@ -47,8 +47,6 @@ export function LoginPageForm() {
   );
 
   async function submitHandler(data: any) {
-    await login.mutateAsync(data, {
-      onSuccess: () => navigate("/"),
-    });
+    await login.mutateAsync(data, { onSuccess: () => navigate("/") });
   }
 }

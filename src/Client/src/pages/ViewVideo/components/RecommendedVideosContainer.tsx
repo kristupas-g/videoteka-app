@@ -13,6 +13,10 @@ export function RecommendedVideosContainer({ videoId }: Props) {
     return <Spinner />;
   }
 
+  if (recommendedVideos.data?.length === 0) {
+    return <span>No recommended videos yet.</span>;
+  }
+
   return (
     <Row>
       {recommendedVideos.data?.map((x) => (
