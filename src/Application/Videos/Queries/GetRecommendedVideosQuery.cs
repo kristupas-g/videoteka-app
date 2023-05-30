@@ -27,7 +27,7 @@ public class GetRecommendedVideosQueryHandler : IRequestHandler<GetRecommendedVi
             .ToListAsync(cancellationToken))
             .Where(x => x.Id != request.Id)
             .OrderBy(x => random.Next())
-            .Take(5)
+            .Take(2)
             .Select(x => new VideoDto(x)); // randomize videos
     }
 }

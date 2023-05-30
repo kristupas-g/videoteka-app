@@ -28,7 +28,7 @@ export function CommentsContainer({ videoId }: Props) {
       <CommentsInputField videoId={videoId} />
 
       {comments.data?.map((row) => (
-        <CommentRow row={row} />
+        <CommentRow key={row.id} row={row} />
       ))}
     </Stack>
   );

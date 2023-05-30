@@ -1,21 +1,28 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Button, Form } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import { FormProvider, useForm } from "react-hook-form";
-import { uploadVideoFormSchema } from "./uploadVideoFormSchema";
+import {
+  UploadVideoFormValues,
+  uploadVideoFormSchema,
+} from "./uploadVideoFormSchema";
 import InputField from "../../components/forms/InputField";
 import { useUploadVideo } from "../../api/videos/api";
+import { LoadingButton } from "../../components/LoadingButton";
+import { useNavigate } from "react-router-dom";
 
 export function UploadVideoForm() {
+  const navigate = useNavigate();
   const uploadVideo = useUploadVideo();
 
-  const methods = useForm({
+  const methods = useForm<UploadVideoFormValues>({
+    mode: "onChange",
     resolver: yupResolver(uploadVideoFormSchema),
   });
   const { handleSubmit, formState } = methods;
 
   return (
     <FormProvider {...methods}>
-      <Form onSubmit={handleSubmit(handleFormSubmit)}>
+      <Form onSubmit={handleSubmit(submitHandler)}>
         <InputField label="Name:" name="name" type="text" styles="mb-3" />
         <InputField
           label="Description:"
@@ -25,18 +32,18 @@ export function UploadVideoForm() {
         />
         <InputField label="File:" name="file" type="file" styles="mb-3" />
 
-        <Button
-          variant="primary"
+        <LoadingButton
           type="submit"
-          disabled={!formState.isValid || formState.isSubmitting}
+          disabled={!formState.isValid}
+          loading={formState.isSubmitting}
         >
           Upload
-        </Button>
+        </LoadingButton>
       </Form>
     </FormProvider>
   );
 
-  function handleFormSubmit(data: any) {
-    uploadVideo.mutate(data);
+  async function submitHandler(data: UploadVideoFormValues) {
+    await uploadVideo.mutateAsync(data, { onSuccess: () => navigate("/") });
   }
 }

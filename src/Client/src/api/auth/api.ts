@@ -1,12 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { LoginCredentials, User } from "./types";
+import { User } from "./types";
 import { axiosInstance } from "../../config/axiosInstance";
+import { LoginFormValues } from "../../pages/auth/LoginPage/loginFormSchema";
 
 export function useAuthLogin() {
   const queryClient = useQueryClient();
 
   return useMutation(
-    (credentials: LoginCredentials) =>
+    (credentials: LoginFormValues) =>
       axiosInstance.post("/auth/login", credentials),
     {
       onSuccess: () => queryClient.invalidateQueries(["auth"]),
