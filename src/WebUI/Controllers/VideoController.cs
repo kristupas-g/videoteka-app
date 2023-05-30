@@ -5,6 +5,7 @@ using Videoteka.Application.VideoComments.Queries;
 using Videoteka.Application.VideoComments.Queries.Dtos;
 using Videoteka.Application.Videos;
 using Videoteka.Application.Videos.Commands;
+using Videoteka.Application.Videos.Commands.CreateVideoCommand;
 using Videoteka.Application.Videos.Queries;
 using Videoteka.Application.Videos.Queries.Dtos;
 

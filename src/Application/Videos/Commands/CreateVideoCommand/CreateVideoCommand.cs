@@ -3,10 +3,11 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using Videoteka.Application.Common.Exceptions;
 using Videoteka.Application.Common.Interfaces;
 using Videoteka.Application.Videos.Queries.Dtos;
 
-namespace Videoteka.Application.Videos.Commands;
+namespace Videoteka.Application.Videos.Commands.CreateVideoCommand;
 
 public record CreateVideoCommand : IRequest, IAuthorizedRequest
 {
