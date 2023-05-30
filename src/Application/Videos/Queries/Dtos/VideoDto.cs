@@ -8,10 +8,20 @@ public record VideoDto
     {
         Id = video.Id;
         Name = video.Name;
+        Description = video.Description;
+        Views = video.Views;
         UploaderId = video.Uploader.Id;
+        Username = video.Uploader.Username;
+        Created = video.Created;
     }
 
     public Guid Id { get; init; }
     public string Name { get; init; }
-    public Guid UploaderId { get; init; }
+    public string? Description { get; init; }
+    public int Views { get; init; }
+
+    public Guid? UploaderId { get; init; }
+    public string Username { get; init; }
+
+    public DateTime Created { get; init; }
 }

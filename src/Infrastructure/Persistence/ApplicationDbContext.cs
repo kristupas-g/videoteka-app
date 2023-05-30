@@ -14,6 +14,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
     public DbSet<User> Users { get; set; }
     public DbSet<Video> Videos { get; set; }
+    public DbSet<VideoComment> VideoComments { get; set; }
 
     public ApplicationDbContext(IMediator mediator,
             DbContextOptions<ApplicationDbContext> options)

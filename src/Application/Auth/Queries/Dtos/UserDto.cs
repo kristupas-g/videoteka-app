@@ -8,8 +8,10 @@ public record UserDto
     {
         Id = user.Id;
         Username = user.Username;
+        Created = user.Created;
     }
 
     public Guid Id { get; init; }
     public string Username { get; init; }
+    public DateTime Created { get; init; }
 }

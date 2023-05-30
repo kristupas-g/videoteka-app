@@ -20,6 +20,10 @@ public class GetVideosQueryHandler : IRequestHandler<GetVideosQuery, IEnumerable
 
     public async Task<IEnumerable<VideoDto>> Handle(GetVideosQuery request, CancellationToken cancellationToken)
     {
-        return (await _dbContext.Videos.ToListAsync(cancellationToken)).Select(x => new VideoDto(x));
+        return (await _dbContext.Videos
+            .Include(x => x.Uploader)
+            .ToListAsync(cancellationToken))
+            .Select(x => new VideoDto(x))
+            .OrderByDescending(x => x.Created);
     }
 }

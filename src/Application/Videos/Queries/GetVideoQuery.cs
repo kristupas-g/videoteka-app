@@ -1,5 +1,6 @@
 using Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Videoteka.Application.Common.Exceptions;
 using Videoteka.Application.Common.Interfaces;
 using Videoteka.Application.Videos.Queries.Dtos;
@@ -19,9 +20,12 @@ public class GetVideoQueryHandler : IRequestHandler<GetVideoQuery, VideoDto>
 
     public async Task<VideoDto> Handle(GetVideoQuery request, CancellationToken cancellationToken)
     {
-        var video = await _dbContext.Videos.FindAsync(request.Id, cancellationToken);
+        var video = await _dbContext.Videos
+            .Include(x => x.Uploader)
+            .FirstAsync(x => x.Id == request.Id, cancellationToken);
 
-        if (video == null) {
+        if (video == null)
+        {
             throw new NotFoundException(nameof(Video), request.Id);
         }
 

@@ -36,9 +36,11 @@ function LeftSideNavbar({ user }: { user?: User }) {
       <Nav.Link as={NavLink} to="/">
         Home
       </Nav.Link>
-      <Nav.Link as={NavLink} to="/about">
-        About
-      </Nav.Link>
+      {user && (
+        <Nav.Link as={NavLink} to="/upload">
+          Upload
+        </Nav.Link>
+      )}
     </>
   );
 }
@@ -50,9 +52,6 @@ function RightSideNavbar({ user }: { user?: User }) {
         title={`Signed in as ${user.username}`}
         id="basic-nav-dropdown"
       >
-        <NavDropdown.Item as={NavLink} to="/upload">
-          Upload
-        </NavDropdown.Item>
         <NavDropdown.Item>Signout</NavDropdown.Item>
       </NavDropdown>
     );

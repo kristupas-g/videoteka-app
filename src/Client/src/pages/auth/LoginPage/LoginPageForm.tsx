@@ -1,23 +1,25 @@
-import { Button, Form } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import { FormProvider, useForm } from "react-hook-form";
 import InputField from "../../../components/forms/InputField";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginFormSchema } from "./loginFormSchema";
 import { useAuthLogin } from "../../../api/auth/api";
 import { useNavigate } from "react-router-dom";
+import { LoadingButton } from "../../../components/LoadingButton";
 
 export function LoginPageForm() {
   const login = useAuthLogin();
   const navigate = useNavigate();
 
   const methods = useForm({
+    mode: "onChange",
     resolver: yupResolver(loginFormSchema),
   });
-  const { handleSubmit, formState, reset } = methods;
+  const { handleSubmit, formState } = methods;
 
   return (
     <FormProvider {...methods}>
-      <Form onSubmit={handleSubmit(onSubmitHandler)}>
+      <Form onSubmit={handleSubmit(submitHandler)}>
         <InputField
           label="Username"
           placeholder="Enter username"
@@ -33,23 +35,20 @@ export function LoginPageForm() {
           styles="mb-3"
         />
 
-        <Button
-          variant="primary"
+        <LoadingButton
           type="submit"
-          disabled={!formState.isValid || formState.isSubmitting}
+          disabled={!formState.isValid}
+          loading={formState.isSubmitting}
         >
           Log in
-        </Button>
+        </LoadingButton>
       </Form>
     </FormProvider>
   );
 
-  function onSubmitHandler(data: any) {
-    login.mutate(data, {
-      onSuccess: () => {
-        reset();
-        navigate("/");
-      },
+  async function submitHandler(data: any) {
+    await login.mutateAsync(data, {
+      onSuccess: () => navigate("/"),
     });
   }
 }

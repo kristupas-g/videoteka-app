@@ -20,13 +20,15 @@ export default function InputField({
     <Form.Group controlId={name} className={styles}>
       {label && <Form.Label>{label}</Form.Label>}
 
-      <Form.Control {...formControlProps} {...register(name)} />
+      <Form.Control
+        {...register(name)}
+        isInvalid={!!errors?.message}
+        {...formControlProps}
+      />
 
-      {errors && (
-        <Form.Text className="text-danger">
-          {errors?.message?.toString()}
-        </Form.Text>
-      )}
+      <Form.Control.Feedback type="invalid">
+        {errors?.message?.toString()}
+      </Form.Control.Feedback>
     </Form.Group>
   );
 }
