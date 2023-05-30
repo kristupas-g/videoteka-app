@@ -1,10 +1,12 @@
 export type Video = {
   id: string;
-  uploaderId: string;
   name: string;
   description: string;
   views: number;
   thumbnail?: string;
+  uploaderId: string;
+  username: string;
+  created: Date;
 };
 
 export type VideoUpload = {

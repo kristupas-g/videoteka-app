@@ -32,7 +32,7 @@ function VideoList({ list }: { list: Video[] }) {
   return (
     <Row>
       {list.map((video) => (
-        <Col xs sm={6} md={4} xl={3}>
+        <Col key={video.id} xs={12} sm={6} md={4} xl={3} className="mb-3">
           <VideoCard data={video} />
         </Col>
       ))}

@@ -19,6 +19,13 @@ export function useSingleVideo(id: string) {
   );
 }
 
+export function useRecommendedVideos(id: string) {
+  return useQuery<Video[]>(
+    ["recommended", id],
+    async () => (await axiosInstance.get(`/video/${id}/recommended`)).data
+  );
+}
+
 export function useVideoComments(id: string) {
   return useQuery<VideoComment[]>(
     ["comments"],

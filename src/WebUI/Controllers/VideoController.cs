@@ -33,6 +33,13 @@ public class VideoController : ApiControllerBase
         return await Mediator.Send(new GetVideoCommentsQuery(id));
     }
 
+    [HttpGet("{id}/recommended")]
+    [AllowAnonymous]
+    public async Task<IEnumerable<VideoDto>> GetRecommended(Guid id)
+    {
+        return await Mediator.Send(new GetRecommendedVideosQuery(id));
+    }
+
     [HttpGet("{id}/watch")]
     [AllowAnonymous]
     public async Task<FileStreamResult> GetStream(Guid id)
