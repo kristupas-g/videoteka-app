@@ -7,7 +7,13 @@ using Videoteka.Application.Videos.Queries.Dtos;
 
 namespace Videoteka.Application.Videos.Queries;
 
-public record GetUploaderVideosQuery(Guid uploaderId) : IRequest<IEnumerable<VideoDto>>;
+public record GetUploaderVideosQuery(Guid uploaderId) : IRequest<IEnumerable<VideoDto>>, IAuthorizedRequest
+    {
+        public async Task<bool> Authorize(IApplicationDbContext context, IAuthService authService)
+        {
+            return await authService.ValidateCookieAndGetUsername() != null;
+        }
+    }
 
 public class GetUploaderVideosQueryHandler : IRequestHandler<GetUploaderVideosQuery, IEnumerable<VideoDto>>
 {

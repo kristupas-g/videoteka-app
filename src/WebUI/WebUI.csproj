@@ -5,8 +5,7 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
-
-    <PropertyGroup Condition=" '$(RunConfiguration)' == 'Videoteka.WebUI' " />
+    
     <ItemGroup>
         <ProjectReference Include="..\Application\Application.csproj" />
         <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />

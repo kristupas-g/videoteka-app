@@ -80,10 +80,13 @@ export function useUpdateVideo(id: string) {
     (data: UpdateVideoFormValues) => {
       const formData = new FormData();
 
-      formData.append("name", data.name);
+      formData.append("name", data.name ?? "");
       formData.append("description", data.description ?? "");
       
-    return  axios.put(`${API_BASE_URL}/video/${id}`, formData );
+    return  axios.put(`${API_BASE_URL}/video/${id}`, formData , {
+      headers: { "Content-Type": "multipart/form-data" },
+      withCredentials: true,
+    });
     },
     {
       onSuccess: () => queryClient.invalidateQueries(["video"]),

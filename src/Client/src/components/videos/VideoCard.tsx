@@ -5,8 +5,6 @@ import { HiUserCircle } from "react-icons/hi";
  import { palette } from "../../config/palette";
  import { formatDistanceToNow } from "date-fns";
  import { abbreviateNumber } from "../../utils/numberAbbreviator";
-import { useAuthenticatedUser } from "../../api/auth/api";
-import { useDeleteVideo } from "../../api/videos/api";
 
 type Props = {
   data: Video;
@@ -14,9 +12,6 @@ type Props = {
 
 export function VideoCard({ data }: Props) {
   const navigate = useNavigate();
-  const user = useAuthenticatedUser();
-  const deleteVideo = useDeleteVideo();
-  const isAuthor = user.data?.id === data.uploaderId;
 
   return (
     <Card onClick={handleClick} style={{ cursor: "pointer", height: "100%" }}>

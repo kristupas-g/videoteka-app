@@ -4,14 +4,20 @@ using Videoteka.Application.Common.Interfaces;
 
 namespace Videoteka.Application.Videos.Commands;
 
-    public record UpdateVideoCommand(Guid Id, string Name, string? Description) : IRequest;
+    public record UpdateVideoCommand(Guid Id, string Name, string? Description) : IRequest, IAuthorizedRequest
+    {
+        public async Task<bool> Authorize(IApplicationDbContext context, IAuthService authService)
+        {
+            return await authService.ValidateCookieAndGetUsername() != null;
+        }
+    }
     
 
     public class UpdateVideoCommandHandler : IRequestHandler<UpdateVideoCommand>
     {
         private readonly IApplicationDbContext _dbContext;
 
-        public UpdateVideoCommandHandler(IApplicationDbContext dbContext)
+        public UpdateVideoCommandHandler(IApplicationDbContext dbContext )
         {
             _dbContext = dbContext;
         }
@@ -19,14 +25,12 @@ namespace Videoteka.Application.Videos.Commands;
         public async Task<Unit> Handle(UpdateVideoCommand request, CancellationToken cancellationToken)
         {
             var video = await _dbContext.Videos.FindAsync(request.Id);
-            Console.WriteLine(video);
 
             if (video == null)
             {
                 return Unit.Value;
             }
 
-            // Update the video properties
             video.Name = request.Name;
             video.Description = request.Description;
 
