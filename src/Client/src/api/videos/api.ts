@@ -5,11 +5,18 @@ import axios from "axios";
 import { API_BASE_URL } from "../../config/const";
 import { VideoComment } from "../videoComments/types";
 import { UploadVideoFormValues } from "../../pages/UploadVideo/uploadVideoFormSchema";
+import { UpdateVideoFormValues } from "../../pages/UpdateVideo/UpdateVideoFormSchema";
 
 export function useVideos() {
   return useQuery<Video[]>(
     ["videos"],
     async () => (await axiosInstance.get("/video")).data
+  );
+}
+export function useUploaderVideos( id: string) {
+  return useQuery<Video[]>(
+    ["uploader", id],
+    async () => (await axiosInstance.get(`/video/uploader/${id}`)).data
   );
 }
 
@@ -52,6 +59,34 @@ export function useUploadVideo() {
     },
     {
       onSuccess: () => queryClient.invalidateQueries(["videos"]),
+    }
+  );
+}
+export function useDeleteVideo() {
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    (id: string) => axiosInstance.delete(`/video/${id}`),
+    {
+      onSuccess: () => queryClient.invalidateQueries(["video"]),
+    }
+  );
+}
+
+export function useUpdateVideo(id: string) {
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    (data: UpdateVideoFormValues) => {
+      const formData = new FormData();
+
+      formData.append("name", data.name);
+      formData.append("description", data.description ?? "");
+      
+    return  axios.put(`${API_BASE_URL}/video/${id}`, formData );
+    },
+    {
+      onSuccess: () => queryClient.invalidateQueries(["video"]),
     }
   );
 }

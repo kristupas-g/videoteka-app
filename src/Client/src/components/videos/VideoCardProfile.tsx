@@ -1,10 +1,12 @@
-import { Card, Stack } from "react-bootstrap";
+import { Card, Dropdown, NavLink, Stack } from "react-bootstrap";
 import { Video } from "../../api/videos/types";
 import { useNavigate } from "react-router-dom";
 import { HiUserCircle } from "react-icons/hi";
  import { palette } from "../../config/palette";
  import { formatDistanceToNow } from "date-fns";
  import { abbreviateNumber } from "../../utils/numberAbbreviator";
+ import { AiFillDelete } from "react-icons/ai";
+ import { AiFillEdit } from "react-icons/ai";
 import { useAuthenticatedUser } from "../../api/auth/api";
 import { useDeleteVideo } from "../../api/videos/api";
 
@@ -12,15 +14,15 @@ type Props = {
   data: Video;
 };
 
-export function VideoCard({ data }: Props) {
+export function VideoCardProfile({ data }: Props) {
   const navigate = useNavigate();
   const user = useAuthenticatedUser();
   const deleteVideo = useDeleteVideo();
   const isAuthor = user.data?.id === data.uploaderId;
 
   return (
-    <Card onClick={handleClick} style={{ cursor: "pointer", height: "100%" }}>
-      <Card.Img 
+    <Card style={{ cursor: "pointer", height: "100%" }}>
+      <Card.Img onClick={handleClick}
         variant="top"
         src={
           data.thumbnail ??
@@ -29,18 +31,45 @@ export function VideoCard({ data }: Props) {
       />
       <Card.Body>
         <Stack direction="horizontal" className="align-items-start" gap={2}>
-          <HiUserCircle size={36} color={palette.gray} />
+          
           <Stack>
             <Card.Title className="mb-0" style={{ fontSize: "18px" }}>
               {data.name}
             </Card.Title>
-            <span style={{ color: palette.gray }}>{data.username}</span>
             <span style={{ color: palette.gray, fontSize: "14px" }}>
+            {(data.description)} 
+            </span>
+            <span style={{ color: palette.gray, fontSize: "10px" }}>
               {`${abbreviateNumber(data.views)} views • ${formatDate(
                 data.created
               )}`}
             </span>
           </Stack>
+          <Dropdown>
+                <Dropdown.Toggle variant="light" id="dropdown-basic" >
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu id="basic-dropdown">
+                    <Dropdown.Item >
+                        <AiFillDelete
+                            size={20}
+                            color={palette.gray}
+                            style={{ cursor: "pointer" }}
+                            onClick={() => deleteVideo.mutate(data.id)}
+                        />
+                        <span style={{ color: palette.gray, fontSize: "12px" }}>Delete</span>
+                    </Dropdown.Item>
+                    <Dropdown.Item onClick={handleEditClick} >
+                        <AiFillEdit
+                            size={20}
+                            color={palette.gray}
+                            style={{ cursor: "pointer" }}
+                        />
+                        <span style={{ color: palette.gray, fontSize: "12px" }}>Edit</span> 
+                            
+                    </Dropdown.Item>
+                </Dropdown.Menu>
+            </Dropdown> 
         </Stack>
       </Card.Body>
     </Card>
@@ -48,6 +77,9 @@ export function VideoCard({ data }: Props) {
 
   function handleClick() {
     navigate(`/video/${data.id}`);
+  }
+  function handleEditClick() {
+    navigate(`/update/${data.id}`);
   }
 
   function formatDate(date: string | Date | number) {
