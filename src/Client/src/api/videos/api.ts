@@ -83,7 +83,7 @@ export function useUpdateVideo(id: string) {
       formData.append("name", data.name ?? "");
       formData.append("description", data.description ?? "");
       
-    return  axios.put(`${API_BASE_URL}/video/${id}`, formData , {
+    return  axiosInstance.put(`${API_BASE_URL}/video/${id}`, formData , {
       headers: { "Content-Type": "multipart/form-data" },
       withCredentials: true,
     });
