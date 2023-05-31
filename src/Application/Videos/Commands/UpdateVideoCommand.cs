@@ -1,5 +1,6 @@
 using System;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Videoteka.Application.Common.Interfaces;
 
 namespace Videoteka.Application.Videos.Commands;
@@ -8,7 +9,10 @@ namespace Videoteka.Application.Videos.Commands;
     {
         public async Task<bool> Authorize(IApplicationDbContext context, IAuthService authService)
         {
-            return await authService.ValidateCookieAndGetUsername() != null;
+            var video = await context.Videos.Include(x => x.Uploader).FirstAsync(x => x.Id == Id);
+            var username = await authService.ValidateCookieAndGetUsername();
+
+            return username != null && video.Uploader.Username == username;
         }
     }
     

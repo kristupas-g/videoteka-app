@@ -11,7 +11,7 @@ import { UpdateVideoFormValues, updateVideoFormSchema } from "./UpdateVideoFormS
 export function UpdateVideoForm({id}: {id?:string}) {
     
   const navigate = useNavigate();
-  const updatedVideo = useUpdateVideo(id ?? "");
+  const updatedVideo = useUpdateVideo();
   const video = useSingleVideo(id ?? "");
 
   const methods = useForm<UpdateVideoFormValues>({
@@ -45,6 +45,7 @@ export function UpdateVideoForm({id}: {id?:string}) {
 
   async function submitHandler(data: UpdateVideoFormValues) {
     const updatedData = {
+      id: video.data?.id,
       name: data.name || video.data?.name || "", 
       description: data.description || video.data?.description || "",
     };

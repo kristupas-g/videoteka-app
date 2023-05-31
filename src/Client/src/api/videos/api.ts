@@ -73,23 +73,13 @@ export function useDeleteVideo() {
   );
 }
 
-export function useUpdateVideo(id: string) {
+export function useUpdateVideo() {
   const queryClient = useQueryClient();
 
   return useMutation(
-    (data: UpdateVideoFormValues) => {
-      const formData = new FormData();
-
-      formData.append("name", data.name ?? "");
-      formData.append("description", data.description ?? "");
-      
-    return  axiosInstance.put(`${API_BASE_URL}/video/${id}`, formData , {
-      headers: { "Content-Type": "multipart/form-data" },
-      withCredentials: true,
-    });
-    },
+    (data: UpdateVideoFormValues) =>  axiosInstance.put(`${API_BASE_URL}/video`, data ),
     {
-      onSuccess: () => queryClient.invalidateQueries(["video"]),
+      onSuccess: () => queryClient.invalidateQueries(["videos"]),
     }
   );
 }
