@@ -25,5 +25,6 @@ public class GetVideosQueryHandler : IRequestHandler<GetVideosQuery, IEnumerable
             .ToListAsync(cancellationToken))
             .Select(x => new VideoDto(x))
             .OrderByDescending(x => x.Created);
+
     }
 }

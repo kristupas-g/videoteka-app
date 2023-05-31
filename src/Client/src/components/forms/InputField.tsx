@@ -5,12 +5,14 @@ type Props = {
   name: string;
   label?: string;
   styles?: string;
+  defaultValue?: string;
 } & FormControlProps;
 
 export default function InputField({
   name,
   label,
   styles,
+  defaultValue,
   ...formControlProps
 }: Props) {
   const { register, formState } = useFormContext();
@@ -22,9 +24,12 @@ export default function InputField({
 
       <Form.Control
         {...register(name)}
+        defaultValue={defaultValue}
         isInvalid={!!errors?.message}
         {...formControlProps}
       />
+
+      
 
       <Form.Control.Feedback type="invalid">
         {errors?.message?.toString()}

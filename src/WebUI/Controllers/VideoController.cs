@@ -20,6 +20,13 @@ public class VideoController : ApiControllerBase
         return await Mediator.Send(new GetVideosQuery());
     }
 
+    [HttpGet("uploader/{id}")]
+     [AllowAnonymous]
+     public async Task<IEnumerable<VideoDto>> GetUploader(Guid id)
+     {
+         return await Mediator.Send(new GetUploaderVideosQuery(id));
+     }
+
     [HttpGet("{id}")]
     [AllowAnonymous]
     public async Task<VideoDto> GetSingle(Guid id)
@@ -61,6 +68,12 @@ public class VideoController : ApiControllerBase
     public async Task<Unit> Delete(Guid id)
     {
         return await Mediator.Send(new DeleteVideoCommand(id));
+    }
+    [HttpPut]
+    [AllowAnonymous]
+    public async Task<Unit> Update(UpdateVideoCommand command)
+    {
+        return await Mediator.Send(command);
     }
 
     [HttpPatch("{id}/views")]

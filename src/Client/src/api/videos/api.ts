@@ -5,11 +5,18 @@ import axios from "axios";
 import { API_BASE_URL } from "../../config/const";
 import { VideoComment } from "../videoComments/types";
 import { UploadVideoFormValues } from "../../pages/UploadVideo/uploadVideoFormSchema";
+import { UpdateVideoFormValues } from "../../pages/UpdateVideo/UpdateVideoFormSchema";
 
 export function useVideos() {
   return useQuery<Video[]>(
     ["videos"],
     async () => (await axiosInstance.get("/video")).data
+  );
+}
+export function useUploaderVideos( id: string) {
+  return useQuery<Video[]>(
+    ["uploader", id],
+    async () => (await axiosInstance.get(`/video/uploader/${id}`)).data
   );
 }
 
@@ -50,6 +57,27 @@ export function useUploadVideo() {
         withCredentials: true,
       });
     },
+    {
+      onSuccess: () => queryClient.invalidateQueries(["videos"]),
+    }
+  );
+}
+export function useDeleteVideo() {
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    (id: string) => axiosInstance.delete(`/video/${id}`),
+    {
+      onSuccess: () => queryClient.invalidateQueries(["video"]),
+    }
+  );
+}
+
+export function useUpdateVideo() {
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    (data: UpdateVideoFormValues) =>  axiosInstance.put(`${API_BASE_URL}/video`, data ),
     {
       onSuccess: () => queryClient.invalidateQueries(["videos"]),
     }

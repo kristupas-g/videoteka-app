@@ -54,6 +54,10 @@ function RightSideNavbar({ user }: { user?: User }) {
         title={`Signed in as ${user.username}`}
         id="basic-nav-dropdown"
       >
+
+        <NavDropdown.Item as={NavLink} to="/profile">
+          Profile
+        </NavDropdown.Item>
         <NavDropdown.Item onClick={handleLogout}>Signout</NavDropdown.Item>
       </NavDropdown>
     );
