@@ -2,18 +2,18 @@ import { Form } from "react-bootstrap";
 import { FormProvider, useForm } from "react-hook-form";
 import InputField from "../../../components/forms/InputField";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { loginFormSchema } from "./loginFormSchema";
-import { useAuthLogin } from "../../../api/auth/api";
+import { useAuthSignup } from "../../../api/auth/api";
 import { useNavigate } from "react-router-dom";
 import { LoadingButton } from "../../../components/LoadingButton";
+import { signupFormSchema } from "./signupFormSchema";
 
-export function LoginPageForm() {
-  const login = useAuthLogin();
+export function SignupPageForm() {
+  const signup = useAuthSignup();
   const navigate = useNavigate();
 
   const methods = useForm({
     mode: "onChange",
-    resolver: yupResolver(loginFormSchema),
+    resolver: yupResolver(signupFormSchema),
   });
   const { handleSubmit, formState } = methods;
 
@@ -40,7 +40,7 @@ export function LoginPageForm() {
           disabled={!formState.isValid}
           loading={formState.isSubmitting}
         >
-          Log in
+          Register
         </LoadingButton>
       </Form>
     </FormProvider>
@@ -48,7 +48,9 @@ export function LoginPageForm() {
 
   async function submitHandler(data: any) {
     try {
-      await login.mutateAsync(data, { onSuccess: () => navigate("/") });
+      await signup.mutateAsync(data, {
+        onSuccess: () => navigate("/"),
+      });
     } catch (error) {
       alert("An error occured. Try again.");
     }

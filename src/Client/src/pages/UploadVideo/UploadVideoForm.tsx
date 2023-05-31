@@ -44,6 +44,10 @@ export function UploadVideoForm() {
   );
 
   async function submitHandler(data: UploadVideoFormValues) {
-    await uploadVideo.mutateAsync(data, { onSuccess: () => navigate("/") });
+    try {
+      await uploadVideo.mutateAsync(data, { onSuccess: () => navigate("/") });
+    } catch (error) {
+      alert("An error occured. Try again.");
+    }
   }
 }

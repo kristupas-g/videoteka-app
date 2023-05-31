@@ -2,10 +2,10 @@ import Image from "react-bootstrap/esm/Image";
 import Col from "react-bootstrap/esm/Col";
 import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
-import { LoginPageForm } from "./LoginPageForm";
+import { SignupPageForm } from "./SignupPageForm";
 import { NavLink } from "react-router-dom";
 
-export function LoginPage() {
+export function SignupPage() {
   return (
     <Container className="my-5">
       <Row style={{ minHeight: "600px" }}>
@@ -21,12 +21,12 @@ export function LoginPage() {
           />
         </Col>
         <Col md={6}>
-          <h2 className="mb-4">Welcome back!</h2>
+          <h2 className="mb-4">Join a world of videos!</h2>
 
-          <LoginPageForm />
+          <SignupPageForm />
 
           <p className="mt-3">
-            Want to create an account? <NavLink to="/signup">Signup</NavLink>
+            Already have an account? <NavLink to="/login">Login</NavLink>
           </p>
         </Col>
       </Row>
