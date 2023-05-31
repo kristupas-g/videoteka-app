@@ -25,7 +25,6 @@ export function VideoCardProfile({ data }: Props) {
       <Card.Img onClick={handleClick}
         variant="top"
         src={
-          data.thumbnail ??
           "https://1.bp.blogspot.com/-KgVoAl8nfUg/X1D5H6zmA7I/AAAAAAAAB-4/n4u4qHh4kN0a8GToVjveE2gM9oLjR4pVACPcBGAYYCw/w919/lofi-girl-studying-hip-hop-radio-headphone-uhdpaper.com-4K-7.2708-wp.thumbnail.jpg"
         }
       />
@@ -55,13 +54,14 @@ export function VideoCardProfile({ data }: Props) {
                             size={20}
                             color={palette.gray}
                             style={{ cursor: "pointer" }}
-                            onClick={() => deleteVideo.mutate(data.id)}
+                            onClick={() => deleteVideo.mutate(data.id, { onSuccess: () => window.location.reload() })}
                         />
                         <span style={{ color: palette.gray, fontSize: "12px" }}>Delete</span>
                     </Dropdown.Item>
                     <Dropdown.Item onClick={handleEditClick} >
                         <AiFillEdit
                             size={20}
+
                             color={palette.gray}
                             style={{ cursor: "pointer" }}
                         />

@@ -1,7 +1,10 @@
+using Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Videoteka.Application.Common.Exceptions;
 using Videoteka.Application.Common.Interfaces;
 
-namespace Videoteka.Application.Auth;
+namespace Videoteka.Application.Auth.Commands;
 
 public record LoginCommand : IRequest
 {
@@ -20,22 +23,20 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand>
         _authService = userService;
     }
 
-    public Task<Unit> Handle(LoginCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
-        var user = _context.Users
-            .Where(
-                x => x.Username == request.Username && x.HashedPassword == request.HashedPassword
-            )
-            .Single();
+        var user = await _context.Users
+            .Where(x =>
+                x.Username == request.Username && x.HashedPassword == request.HashedPassword)
+            .FirstOrDefaultAsync();
 
         if (user is null)
         {
-            // TODO handle this exception
-            throw new KeyNotFoundException("Either username or email is incorrect");
+            throw new NotFoundException(nameof(User), "User not found");
         }
 
-        _authService.Login(user);
+        await _authService.Login(user);
 
-        return Task.FromResult(Unit.Value);
+        return Unit.Value;
     }
 }

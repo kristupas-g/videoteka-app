@@ -1,7 +1,7 @@
 import Container from "react-bootstrap/Container";
 import { Nav, Navbar as BootstrapNavbar, NavDropdown } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-import { useAuthenticatedUser } from "../api/auth/api";
+import { useAuthLogout, useAuthenticatedUser } from "../api/auth/api";
 import { User } from "../api/auth/types";
 
 export function Navbar() {
@@ -46,6 +46,8 @@ function LeftSideNavbar({ user }: { user?: User }) {
 }
 
 function RightSideNavbar({ user }: { user?: User }) {
+  const logout = useAuthLogout();
+
   if (!!user) {
     return (
       <NavDropdown
@@ -56,7 +58,7 @@ function RightSideNavbar({ user }: { user?: User }) {
         <NavDropdown.Item as={NavLink} to="/profile">
           Profile
         </NavDropdown.Item>
-        <NavDropdown.Item>Signout</NavDropdown.Item>
+        <NavDropdown.Item onClick={handleLogout}>Signout</NavDropdown.Item>
       </NavDropdown>
     );
   }
@@ -68,4 +70,8 @@ function RightSideNavbar({ user }: { user?: User }) {
       </Nav.Link>
     </>
   );
+
+  function handleLogout() {
+    logout.mutate();
+  }
 }

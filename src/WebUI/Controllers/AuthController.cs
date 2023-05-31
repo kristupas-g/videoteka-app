@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Videoteka.Application.Auth;
+using Videoteka.Application.Auth.Queries;
+using Videoteka.Application.Auth.Commands;
 using Videoteka.Application.Auth.Queries.Dtos;
 
 namespace Videoteka.WebUI.Controllers;
@@ -16,15 +17,21 @@ public class AuthController : ApiControllerBase
 
     [HttpPost("login")]
     [AllowAnonymous]
-    public async Task<IActionResult> LoginAsync(LoginCommand command)
+    public async Task<IActionResult> Login(LoginCommand command)
+    {
+        return Ok(await Mediator.Send(command));
+    }
+
+    [HttpPost("signup")]
+    [AllowAnonymous]
+    public async Task<IActionResult> Signup(SignupCommand command)
     {
         return Ok(await Mediator.Send(command));
     }
 
     [HttpPost("logout")]
-    [Authorize]
-    public async Task<IActionResult> LogoutAsync(LogoutCommand command)
+    public async Task<IActionResult> Logout(LogoutCommand command)
     {
-        throw new NotImplementedException();
+        return Ok(await Mediator.Send(command));
     }
 }

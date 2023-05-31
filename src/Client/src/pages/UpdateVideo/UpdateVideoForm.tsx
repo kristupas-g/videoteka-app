@@ -44,6 +44,11 @@ export function UpdateVideoForm({id}: {id?:string}) {
   );
 
   async function submitHandler(data: UpdateVideoFormValues) {
-    await updatedVideo.mutateAsync(data,  { onSuccess: () => navigate("/") });
+    const updatedData = {
+      name: data.name || video.data?.name || "", 
+      description: data.description || video.data?.description || "",
+    };
+
+    await updatedVideo.mutateAsync(updatedData,  { onSuccess: () => navigate("/profile") });
   }
 }

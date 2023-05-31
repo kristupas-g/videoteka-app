@@ -23,7 +23,6 @@ export function VideoCard({ data }: Props) {
       <Card.Img 
         variant="top"
         src={
-          data.thumbnail ??
           "https://1.bp.blogspot.com/-KgVoAl8nfUg/X1D5H6zmA7I/AAAAAAAAB-4/n4u4qHh4kN0a8GToVjveE2gM9oLjR4pVACPcBGAYYCw/w919/lofi-girl-studying-hip-hop-radio-headphone-uhdpaper.com-4K-7.2708-wp.thumbnail.jpg"
         }
       />

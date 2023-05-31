@@ -3,9 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
-using Videoteka.Application.Common.Exceptions;
 using Videoteka.Application.Common.Interfaces;
-using Videoteka.Application.Videos.Queries.Dtos;
 
 namespace Videoteka.Application.Videos.Commands.CreateVideoCommand;
 
@@ -39,7 +37,16 @@ public class CreateVideoCommandHandler : IRequestHandler<CreateVideoCommand>
     {
         var id = Guid.NewGuid();
         var user = await FindUserAsync();
-        var video = CreateVideo(id, request, user);
+
+        var video = new Video
+        {
+            Id = id,
+            Name = request.Name,
+            Description = request.Description,
+            UploaderId = user.Id,
+            ThumbnailUrl = String.Empty,
+            VideoUrl = _videoService.GetResourceUrl(id.ToString()),
+        };
 
         using (IDbContextTransaction transaction = _dbContext.Database.BeginTransaction())
         {
@@ -68,16 +75,5 @@ public class CreateVideoCommandHandler : IRequestHandler<CreateVideoCommand>
         var username = await _authService.ValidateCookieAndGetUsername();
 
         return await _dbContext.Users.FirstAsync(x => x.Username == username);
-    }
-
-    private Video CreateVideo(Guid id, CreateVideoCommand request, User user)
-    {
-        return new Video
-        {
-            Id = id,
-            Name = request.Name,
-            Description = request.Description,
-            UploaderId = user.Id,
-        };
     }
 }

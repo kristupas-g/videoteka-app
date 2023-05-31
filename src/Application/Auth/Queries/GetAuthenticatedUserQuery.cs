@@ -2,7 +2,7 @@ using MediatR;
 using Videoteka.Application.Auth.Queries.Dtos;
 using Videoteka.Application.Common.Interfaces;
 
-namespace Videoteka.Application.Auth;
+namespace Videoteka.Application.Auth.Queries;
 
 public record GetAuthenticatedUserQuery : IRequest<UserDto?>;
 
