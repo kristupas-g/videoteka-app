@@ -44,6 +44,13 @@ public class VideoService : IVideoService
         await blobClient.UploadAsync(video, overwrite: true);
     }
 
+    public async Task DeleteVideoAsync(string blobName)
+    {
+        var blobClient = _blobContainerClient.GetBlobClient(blobName);
+
+        await blobClient.DeleteAsync();
+    }
+
     public string GetResourceUrl(string fileName)
     {
         var cdnUrl = _configuration.GetValue<string>("Azure:BlobStorage:CdnBaseUrl");
