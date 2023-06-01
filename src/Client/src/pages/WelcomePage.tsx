@@ -1,6 +1,4 @@
 import { Button, Container } from "react-bootstrap";
-import Image from "react-bootstrap/esm/Image";
-import { LoadingButton } from "../components/LoadingButton";
 import { NavLink } from "react-router-dom";
 import { palette } from "../config/palette";
 
