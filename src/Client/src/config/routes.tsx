@@ -6,11 +6,11 @@ import { UploadVideoPage } from "../pages/UploadVideo/UploadVideoPage";
 import { SingleVideoPage } from "../pages/ViewVideo/SingleVideoPage";
 
 import { NotFoundPage } from "../pages/NotFoundPage";
-import { SignupPage } from "../pages/auth/SignupPage/SignupPage";
 
 import { ProfilePage } from "../pages/Profile/ProfilePage";
 import { UpdateVideoPage } from "../pages/UpdateVideo/UpdateVideoPage";
-
+import { WelcomePage } from "../pages/WelcomePage";
+import { SignupPage } from "../pages/auth/SignupPage/SignupPage";
 
 
 export function Routes() {
@@ -18,10 +18,11 @@ export function Routes() {
 
   return (
     <RouteList>
-      <Route index path="/" element={<NewestVideosPage />} />
+      
 
       {isAuthenticated ? (
         <>
+          <Route index path="/" element={<NewestVideosPage />} />
           <Route path="/upload" element={<UploadVideoPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/update/:id" element={<UpdateVideoPage />} />
@@ -29,9 +30,10 @@ export function Routes() {
         </>
       ) : (
         <>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
-        </>
+          <Route index path="/" element={<WelcomePage />} />
+           <Route path="/login" element={<LoginPage />} />
+           <Route path="/signup" element={<SignupPage />} />
+         </>
       )}
 
       <Route path="*" element={<NotFoundPage />} />
