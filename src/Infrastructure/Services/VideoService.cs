@@ -94,7 +94,6 @@ public class VideoService : IVideoService
         {
             File.Delete(filePath);
         }
->>>>>>> Stashed changes
     }
 
     private BlobContainerClient EnsureBlobContainer(string containerName)

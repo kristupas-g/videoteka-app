@@ -38,13 +38,15 @@ public class CreateVideoCommandHandler : IRequestHandler<CreateVideoCommand>
         var id = Guid.NewGuid();
         var user = await FindUserAsync();
 
+        var thumbnailId = id.ToString() + "-THUMBNAIL.jpg";
+
         var video = new Video
         {
             Id = id,
             Name = request.Name,
             Description = request.Description,
             UploaderId = user.Id,
-            ThumbnailUrl = String.Empty,
+            ThumbnailUrl = _videoService.GetResourceUrl(thumbnailId),
             VideoUrl = _videoService.GetResourceUrl(id.ToString()),
         };
 
@@ -54,6 +56,9 @@ public class CreateVideoCommandHandler : IRequestHandler<CreateVideoCommand>
             {
                 Stream stream = request.File.OpenReadStream();
                 await _videoService.StoreVideo(stream, id.ToString());
+
+                var thumbnailStream = await _videoService.GetFirstFrame(stream, cancellationToken);
+                await _videoService.StoreVideo(thumbnailStream, thumbnailId);
 
                 _dbContext.Videos.Add(video);
                 await _dbContext.SaveChangesAsync();
