@@ -13,7 +13,7 @@ export function useVideos() {
     async () => (await axiosInstance.get("/video")).data
   );
 }
-export function useUploaderVideos( id: string) {
+export function useUploaderVideos(id: string) {
   return useQuery<Video[]>(
     ["uploader", id],
     async () => (await axiosInstance.get(`/video/uploader/${id}`)).data
@@ -65,19 +65,17 @@ export function useUploadVideo() {
 export function useDeleteVideo() {
   const queryClient = useQueryClient();
 
-  return useMutation(
-    (id: string) => axiosInstance.delete(`/video/${id}`),
-    {
-      onSuccess: () => queryClient.invalidateQueries(["video"]),
-    }
-  );
+  return useMutation((id: string) => axiosInstance.delete(`/video/${id}`), {
+    onSuccess: () => queryClient.invalidateQueries(["videos"]),
+  });
 }
 
 export function useUpdateVideo() {
   const queryClient = useQueryClient();
 
   return useMutation(
-    (data: UpdateVideoFormValues) =>  axiosInstance.put(`${API_BASE_URL}/video`, data ),
+    (data: UpdateVideoFormValues) =>
+      axiosInstance.put(`${API_BASE_URL}/video`, data),
     {
       onSuccess: () => queryClient.invalidateQueries(["videos"]),
     }
