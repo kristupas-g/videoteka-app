@@ -1,9 +1,10 @@
-using Azure.Identity;
+using System.Drawing;
 using Azure.Storage.Blobs;
-using Domain.Entities;
 using Microsoft.Extensions.Configuration;
 using Videoteka.Application.Common.Interfaces;
 using Videoteka.Infrastructure.Persistence;
+using Accord.Video;
+using FFmpeg.NET;
 
 namespace Videoteka.Infrastructure.Services;
 
@@ -56,6 +57,43 @@ public class VideoService : IVideoService
         var cdnUrl = _configuration.GetValue<string>("Azure:BlobStorage:CdnBaseUrl");
 
         return Path.Combine(cdnUrl, _blobContainerClient.Name, fileName);
+    }
+    public async Task<Stream> GetFirstFrame(Stream video, CancellationToken cancellationToken)
+    {
+        video.Position = 0;
+
+        var inputFilePath = Path.GetTempFileName();
+        var outputFilePath = Path.ChangeExtension(Path.GetTempFileName(), "jpg");
+
+        using (var file = File.Create(inputFilePath))
+        {
+            await video.CopyToAsync(file);
+        }
+
+        File.Create(outputFilePath)
+            .Close();
+
+        var inputFile = new InputFile(inputFilePath);
+        var outputFile = new OutputFile(outputFilePath);
+
+        var ffmpeg = new Engine("/opt/homebrew/bin/ffmpeg");
+        var options = new ConversionOptions { Seek = TimeSpan.FromSeconds(1) };
+        await ffmpeg.GetThumbnailAsync(inputFile, outputFile, options, cancellationToken);
+
+        var thumbnail = File.OpenRead(outputFilePath);
+
+        DeleteFile(inputFilePath);
+        DeleteFile(outputFilePath);
+
+        return (Stream)thumbnail;
+    }
+
+    private void DeleteFile(string filePath)
+    {
+        if (File.Exists(filePath))
+        {
+            File.Delete(filePath);
+        }
     }
 
     private BlobContainerClient EnsureBlobContainer(string containerName)
