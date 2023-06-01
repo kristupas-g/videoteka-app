@@ -40,6 +40,7 @@ export function VideoCard({ data }: Props) {
 
   function handleClick() {
     navigate(`/video/${data.id}`);
+    window.location.reload();
   }
 
   function formatDate(date: string | Date | number) {
